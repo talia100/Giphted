@@ -2,6 +2,8 @@ import json
 from urllib import parse, request
 from flask import Flask, render_template
 app = Flask(__name__)
+from flask_login import current_user, login_user, login_required, logout_user
+from models import db, login, UserModel
 
 def gif(mood):
   gifs = []
