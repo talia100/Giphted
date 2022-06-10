@@ -1,4 +1,5 @@
 import json
+from os import link
 from urllib import parse, request
 from flask import Flask, render_template, redirect
 from flask_wtf import FlaskForm
@@ -51,7 +52,11 @@ def gif(mood):
     data = json.loads(response.read())
 
   for gif in data['data']:
-    gifs.append(gif['images']['fixed_height']['url'])
+    gif_picks = {
+      "id": gif["id"],
+      "link": gif['images']['fixed_height']['url']
+    }
+    gifs.append(gif_picks)
 
   return gifs
 
@@ -90,26 +95,56 @@ def logout():
 @app.route("/sad")
 def sad():
   title = "Sad moods"
+  link = "/sad/"
   gifs = gif("sad")
-  return render_template('moods.html', title=title, gifs=gifs)
+  return render_template('moods.html', title=title, gifs=gifs, link=link)
 
 @app.route("/happy")
 def happy():
   title = "Happy moods"
+  link = "/happy/"
   gifs = gif("happy")
-  return render_template('moods.html', title=title, gifs=gifs)
+  return render_template('moods.html', title=title, gifs=gifs, link=link)
 
 @app.route("/anxious")
 def anxious():
   title = "Anxious moods"
+  link = "/anxious/"
   gifs = gif("anxious")
-  return render_template('moods.html', title=title, gifs=gifs)
+  return render_template('moods.html', title=title, gifs=gifs, link=link)
 
 @app.route("/angry")
 def angry():
   title = "Angry moods"
+  link = "/angry/"
   gifs = gif("angry")
-  return render_template('moods.html', title=title, gifs=gifs)
+  return render_template('moods.html', title=title, gifs=gifs, link=link)
+
+
+
+@app.route("/sad/<id>")
+def sad_pick(id):
+  gifs = gif("sad")
+  link = "/sad"
+  return render_template('single_image.html', gifs=gifs, id=id, link=link)
+
+@app.route("/happy/<id>")
+def happy_pick(id):
+  gifs = gif("happy")
+  link = "/happy"
+  return render_template('single_image.html', gifs=gifs, id=id, link=link)
+
+@app.route("/anxious/<id>")
+def anxious_pick(id):
+  gifs = gif("anxious")
+  link = "/anxious"
+  return render_template('single_image.html', gifs=gifs, id=id, link=link)
+
+@app.route("/angry/<id>")
+def angry_pick(id):
+  gifs = gif("angry")
+  link = "/angry"
+  return render_template('single_image.html', gifs=gifs, id=id, link=link)
 
 
 if __name__ == "__main__":

@@ -13,19 +13,11 @@
     <title>Moods</title>
   </head>
   <body>
-    <div class="container-fluid">
-      <h1>{{ title }}</h1>
-      <h2>Choose the gif that best describes your mood</h2>
-      <a href="/home">Home</a>
-      <br />
-      <table class="table">
-        <tbody></tbody>
-      </table>
-      <div class="d-flex flex-wrap justify-content-md-center">
-        {% for gif in gifs %}
-        <a href="{{ link }}{{ gif.id }}"><img src="{{ gif.link }}" /></a>
-        {% endfor %}
-      </div>
-    </div>
+    <h1>My mood</h1>
+    {% for gif in gifs %} {% if id == gif.id %}
+    <img src="{{ gif.link }}" />
+    {% endif %} {% endfor %}
+    <br />
+    <a href="{{ link }}"> Gifs</a>
   </body>
 </html>
